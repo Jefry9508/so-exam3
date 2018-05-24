@@ -36,3 +36,42 @@ Se crea un script cuyo nombre siempre deberá empezar por test ya que el comando
 Luego ejecutamos el comando ```pytest -v```, el cual buscará todos los archivos .py que comiencen con la palabra test para ser ejecutados. Obtenemos el siguiente resultado:
 
 ![](capturas/test_passed.png)
+
+
+## Emplear un servicio de integracíon continua que haga uso de las pruebas unitarias desarrolladas para validar los commits.
+
+Se debe crear un archivo llamado tox.ini el cual contendrá las librerías, dependencias, entornos y comandos que necesitará para realizar la integración con las pruebas unitarias. Este queda como sigue:
+
+```
+[tox]
+envlist = pytest 
+
+[testenv]
+basepython = python3
+
+[testenv:pytest]
+deps =
+  -rrequirements_dev.txt
+commands =
+  pytest
+```
+
+Luego debemos ejecutar el comando ```tox -e pytest``` para que tox corra las pruebas de nuevo obteniendo los siguientes resultados:
+
+![](capturas/tox.png)
+
+Ahora se crea un archivo llamado .travis.yml, que se deberá agregarse al directorio raíz del repositorio para que Travis pueda detectarlo y correr los test. En este archivo se especifica el lenguaje de programación y la versión utilizada, comandos de instalción de dependencias (en este caso es necesario que instale tox para travis para realizar las pruebas unitarias) entre otras configuraciones. Este archivo queda como sigue:
+
+```
+sudo: false
+language: python
+notifications:
+  email: false
+python:
+- '3.4'
+install: pip install tox-travis
+script: tox -e pytest
+```
+
+Para configurar Travis con nuestro repositorio, debemos acceder a la página https://travis-ci.org/, identificarnos con nuestras credenciales de Github, luego sincronizar nuestros repositorios y activar el actual que es el de so-exam3. Con esto, ya Travis está autorizado para realizar las validaciones a cada pull o commit que se le realice a este repositorio.
+
