@@ -75,4 +75,6 @@ script: tox -e pytest
 
 Para configurar Travis con nuestro repositorio, debemos acceder a la página https://travis-ci.org/, identificarnos con nuestras credenciales de Github, luego sincronizar nuestros repositorios y activar el actual que es el de so-exam3. Con esto, ya Travis está autorizado para realizar las validaciones a cada pull o commit que se le realice a este repositorio.
 
+![](capturas/travis_passed.png)
+
 ![](capturas/travis_pull.png)
